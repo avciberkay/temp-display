@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sıcaklık Takibi</title>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      padding: 50px;
+      background-color: #f5f5f5;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #temp {
+      font-size: 3em;
+      color: #336699;
+      margin-bottom: 30px;
+    }
+
+    .bar-container {
+      position: relative;
+      width: 100px;
+      height: 300px;
+      border: 2px solid #ccc;
+      background: white;
+      margin: 0 auto;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: red;
+      transition: height 0.5s ease;
+    }
+
+    .label {
+      margin-top: 10px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Anlık Sıcaklık</h1>
+  <div id="temp">Yükleniyor...</div>
+
+  <div class="bar-container">
+    <div class="bar-fill" id="bar" style="height: 0%;"></div>
+  </div>
+  <div class="label">0°C - 50°C</div>
+
+  <script>
+    async function fetchTemperature() {
+      try {
+        const response = await fetch("http://localhost:3000/temperature");
+        const data = await response.json();
+        const temp = parseFloat(data.temperature);
+        document.getElementById("temp").innerText = temp.toFixed(1) + " °C";
+
+        // Bar yüksekliği hesapla (max 50°C'ye göre)
+        let height = Math.min(100, (temp / 50) * 100); // yüzde
+        document.getElementById("bar").style.height = height + "%";
+
+      } catch (e) {
+        document.getElementById("temp").innerText = "Veri alınamadı";
+      }
+    }
+
+    fetchTemperature();
+    setInterval(fetchTemperature, 5000);
+  </script>
+</body>
+</html>
