@@ -47,7 +47,7 @@
   <script>
     async function fetchTemperature() {
       try {
-        const response = await fetch("https://script.google.com/macros/s/AKfycbyXF0TSfiYxZCGZyTN0BnZlgkgVRYv8eubV2pILKKs9JAzHOtUR_iiAtvCLdeD5I3G24g/exec?nocache=" + new Date().getTime());
+        const response = await fetch("https://script.google.com/macros/s/AKfycbyHup5Xolp6ojJYc9lRjTz7S1d5ezFh2J2B_u82X-sSGwqCxZb8fab1CZVmkYCkSDWpYQ/exec?nocache=" + new Date().getTime());
         const data = await response.json();
         
         const temp = parseFloat(data.temperature);
