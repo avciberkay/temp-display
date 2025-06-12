@@ -48,33 +48,33 @@
   </div>
 
   <script>
-    async function fetchTemperature() {
-      try {
-        const originalUrl = "https://script.google.com/macros/s/AKfycbyHup5Xolp6ojJYc9lRjTz7S1d5ezFh2J2B_u82X-sSGwqCxZb8fab1CZVmkYCkSDWpYQ/exec?nocache=" + new Date().getTime();
-        const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(originalUrl);
+  async function fetchTemperature() {
+    try {
+      const originalUrl = "https://script.google.com/macros/s/AKfycbyHup5Xolp6ojJYc9lRjTz7S1d5ezFh2J2B_u82X-sSGwqCxZb8fab1CZVmkYCkSDWpYQ/exec?nocache=" + new Date().getTime();
+      const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(originalUrl);
 
-        const response = await fetch(proxyUrl);
-        const result = await response.json();
-        const data = JSON.parse(result.contents);
+      const response = await fetch(proxyUrl);
+      const data = await response.json();
 
-        const temp = parseFloat(data.temperature);
-        const time = new Date(data.timestamp).toLocaleString('tr-TR');
+      const temp = parseFloat(data.temperature);
+      const time = new Date(data.timestamp).toLocaleString('tr-TR');
 
-        document.getElementById("temp").innerText = temp.toFixed(1) + " °C";
-        document.getElementById("time").innerText = "Son güncelleme: " + time;
+      document.getElementById("temp").innerText = temp.toFixed(1) + " °C";
+      document.getElementById("time").innerText = "Son güncelleme: " + time;
 
-        const heightPercent = Math.min(100, (temp / 50) * 100);
-        document.getElementById("bar").style.height = heightPercent + "%";
+      const heightPercent = Math.min(100, (temp / 50) * 100);
+      document.getElementById("bar").style.height = heightPercent + "%";
 
-      } catch (error) {
-        document.getElementById("temp").innerText = "Veri alınamadı";
-        document.getElementById("time").innerText = "-";
-        console.error("Veri çekme hatası:", error);
-      }
+    } catch (error) {
+      document.getElementById("temp").innerText = "Veri alınamadı";
+      document.getElementById("time").innerText = "-";
+      console.error("Veri çekme hatası:", error);
     }
+  }
 
-    fetchTemperature();
-    setInterval(fetchTemperature, 5000);
+  fetchTemperature();
+  setInterval(fetchTemperature, 5000);
   </script>
+
 </body>
 </html>
