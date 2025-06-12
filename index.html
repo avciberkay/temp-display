@@ -1,72 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Sıcaklık Takibi</title>
+  <title>Canlı Sıcaklık</title>
   <meta charset="UTF-8">
   <style>
     body {
       font-family: Arial;
       text-align: center;
-      padding: 50px;
-      background-color: #f5f5f5;
-    }
-
-    h1 {
-      color: #333;
+      margin-top: 100px;
     }
 
     #temp {
       font-size: 3em;
-      color: #336699;
-      margin-bottom: 30px;
+      color: #d60000;
+      margin-bottom: 20px;
     }
 
     .bar-container {
-      position: relative;
-      width: 100px;
+      width: 80px;
       height: 300px;
       border: 2px solid #ccc;
-      background: white;
       margin: 0 auto;
-      border-radius: 10px;
-      overflow: hidden;
+      position: relative;
+      border-radius: 8px;
+      background-color: #f0f0f0;
     }
 
     .bar-fill {
       position: absolute;
       bottom: 0;
       width: 100%;
-      background: red;
-      transition: height 0.5s ease;
-    }
-
-    .label {
-      margin-top: 10px;
-      color: #555;
+      background-color: red;
+      height: 0%;
+      transition: height 0.4s;
     }
   </style>
 </head>
 <body>
   <h1>Anlık Sıcaklık</h1>
   <div id="temp">Yükleniyor...</div>
-
   <div class="bar-container">
-    <div class="bar-fill" id="bar" style="height: 0%;"></div>
+    <div class="bar-fill" id="bar"></div>
   </div>
-  <div class="label">0°C - 50°C</div>
 
   <script>
     async function fetchTemperature() {
       try {
-        const response = await fetch("http://localhost:3000/temperature");
+        const response = await fetch("https://opensheet.vercel.app/1PTt1CvI1cRW9OByJxpZ3im1-nFHJ6rIcQzC6S5eruto/Sayfa1");
         const data = await response.json();
-        const temp = parseFloat(data.temperature);
-        document.getElementById("temp").innerText = temp.toFixed(1) + " °C";
 
-        // Bar yüksekliği hesapla (max 50°C'ye göre)
-        let height = Math.min(100, (temp / 50) * 100); // yüzde
-        document.getElementById("bar").style.height = height + "%";
+        if (data.length > 0) {
+          const last = data[data.length - 1];
+          const temp = parseFloat(last.temperature);
+          document.getElementById("temp").innerText = temp.toFixed(1) + " °C";
 
+          const percent = Math.min(100, (temp / 50) * 100);
+          document.getElementById("bar").style.height = percent + "%";
+        }
       } catch (e) {
         document.getElementById("temp").innerText = "Veri alınamadı";
       }
